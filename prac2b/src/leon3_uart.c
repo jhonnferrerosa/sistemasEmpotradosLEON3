@@ -8,16 +8,26 @@ typedef struct UART_regs{
 	volatile uint32_t Scaler;    //0x8000010C
 };
 
+/*
 // TFF es el bit indice 9. Va a ctuar de máscara para este bit 9.
 //Enascarar es que NO sea visible, se puede hacer una AND con esa posicion de memoria.
 #define LEON3_UART_TFF(a) a=a*0
 
 //TFE es el bit indice 2
-#define LEON3_UART_TFE(a) a=a*0
+#define LEON3_UART_TFE(a) a=a*0	// Esto que es ???????
+*/
+
+//!LEON3 UART A TX FIFO is full
+#define LEON3_UART_TFF (0x200)
+
+//!LEON3 UART A TX FIFO is empty
+#define LEON3_UART_TFE  (0x004)
 
 struct UART_regs * const pLEON3_UART_REGS = (struct UART_regs *) 0x80000100;
 
-#define leon3_UART_TF_IS_FULL() (pLEON3_UART_REGS->Status <512? 0 : 1)
+//#define leon3_UART_TF_IS_FULL() (pLEON3_UART_REGS->Status <512? 0 : 1)  // Tampoco lo entiendo
+
+#define leon3_UART_TF_IS_FULL() (LEON3_UART_TFF&pLEON3_UART_REGS->Status)
 
 int8_t leon3_putchar (char c){
 	uint32_t write_timeout = 0;
@@ -29,6 +39,8 @@ int8_t leon3_putchar (char c){
 	}
 	return write_timeout == 0xAAAAA;
 }
+
+/*
 int8_t leon3_uart_tx_fifo_is_empty (){
 	uint8_t variable = 0;
 	uint8_t miStatus = 0;
@@ -43,4 +55,11 @@ int8_t leon3_uart_tx_fifo_is_empty (){
 	}
 	return variable;
 }
+*/
+
+int8_t leon3_uart_tx_fifo_is_empty(){
+	return (LEON3_UART_TFE&pLEON3_UART_REGS->Status);
+
+}
+
 
