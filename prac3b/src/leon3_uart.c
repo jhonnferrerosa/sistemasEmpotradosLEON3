@@ -1,11 +1,20 @@
 
+#include <leon3_uart.h>
+
+/*
 #include "../include/leon3_types.h"
+
+
+
 typedef struct UART_regs{
 	volatile uint32_t Data;  //0x80000100
 	volatile uint32_t Status;	 //0x80000104
 	volatile uint32_t Ctrl;  //0x80000108     0x10B = 3 (0000 0011)
 	volatile uint32_t Scaler;    //0x8000010C
 };
+
+*/
+
 // TFF es el bit indice 9. Va a ctuar de máscara para este bit 9.
 //Enascarar es que NO sea visible, se puede hacer una AND con esa posicion de memoria.
 #define LEON3_UART_TFF 0x200
@@ -43,12 +52,17 @@ void leon3_uart_ctrl_config_rxtx_loop (uint8_t set_rxtxloop){ //es el bit indice
 	if (set_rxtxloop == 1){
 		pLEON3_UART_REGS->Ctrl = pLEON3_UART_REGS->Ctrl | 0x80;
 	}else{
+		
+		pLEON3_UART_REGS->Ctrl = pLEON3_UART_REGS->Ctrl & ~0x80;
+		
+		/*
 		if ( (pLEON3_UART_REGS->Ctrl & 0x80) == 0){
 			//en caso de que el bit loopBack ya este a 0, no se hace nada.
 			uint8_t noSeUsaVariable = 0;	// ESTO QUE HACE ??????
 		}else{
 			pLEON3_UART_REGS->Ctrl = pLEON3_UART_REGS->Ctrl ^ 0x80;
 		}
+		*/
 	}
 }
 
