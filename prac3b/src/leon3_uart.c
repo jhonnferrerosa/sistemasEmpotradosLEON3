@@ -45,7 +45,7 @@ void leon3_uart_ctrl_config_rxtx_loop (uint8_t set_rxtxloop){ //es el bit indice
 	}else{
 		if ( (pLEON3_UART_REGS->Ctrl & 0x80) == 0){
 			//en caso de que el bit loopBack ya este a 0, no se hace nada.
-			uint8_t noSeUsaVariable = 0;
+			uint8_t noSeUsaVariable = 0;	// ESTO QUE HACE ??????
 		}else{
 			pLEON3_UART_REGS->Ctrl = pLEON3_UART_REGS->Ctrl ^ 0x80;
 		}
