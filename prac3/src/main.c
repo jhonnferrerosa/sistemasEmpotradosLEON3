@@ -47,6 +47,10 @@ int main (){
 	//jhon: esto es el codigo de usuario, para llamar las rutinas que se ejecutan en modo supervisor.
 	leon3_sys_call_enable_irqs();
 
+//
+// También dice que primero hay que forzar sin enmascarar	
+//
+	
 	//jhon: enunciado dice: enmascarar antes de forzar la interrupcion, para ver que no sale nada.
 	uint8_t miReturnLeon3_mask_irq = 7;
 	//miReturnLeon3_mask_irq = leon3_mask_irq (1);
